@@ -124,6 +124,7 @@ ul{list-style:none;padding:0}
 .side .stamp{height:100%}
 .side .face{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .front .face{color:var(--green-d)}
+.front .club{font-family:var(--script);font-size:34px;line-height:1;color:var(--green-d);margin-bottom:10px;text-wrap:balance}
 .front .gift{width:46%;margin-bottom:6px}
 .front h1{font-size:54px;line-height:1;margin:4px 0 2px;color:var(--green-d)}
 .front .sub{font-weight:600}
@@ -373,6 +374,7 @@ function viewReveal(data) {
     <div class="flipwrap" id="fw">
       <div class="flipper">
         <div class="side front" id="front"><div class="stamp"><div class="face">
+          <span class="club">Operation Taudiens-Wichtel</span>
           ${GIFT}
           <h1>Hallo ${esc(data.n)}</h1>
           <p class="sub">Du hast jemanden gezogen.</p>
