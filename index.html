@@ -114,11 +114,13 @@ ul{list-style:none;padding:0}
 
 /* ---------- Aufdecken ---------- */
 .reveal{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:8px}
-.flipwrap{perspective:1400px;width:min(100%,330px);aspect-ratio:3/4.1;position:relative}
-.flipper{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .9s var(--ease)}
-.flipwrap.open .flipper{transform:rotateY(180deg)}
-.side{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
-.side.back{transform:rotateY(180deg)}
+.flipwrap{width:min(100%,330px);aspect-ratio:3/4.1;position:relative}
+.flipper{position:absolute;inset:0;transition:transform .26s ease-in}
+.flipper.turn{transform:scaleX(0)}
+.side{position:absolute;inset:0}
+.side.back{display:none}
+.flipwrap.open .side.front{display:none}
+.flipwrap.open .side.back{display:block}
 .side .stamp{height:100%}
 .side .face{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .front .face{color:var(--green-d)}
@@ -390,8 +392,14 @@ function viewReveal(data) {
   </div>`;
   const fw = $('#fw'), tap = $('#tap');
   let open = false;
+  const flipper = $('.flipper');
+  const calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let busy = false;
   function toggle() {
-    open = !open; fw.classList.toggle('open', open);
+    if (busy) return; busy = true;
+    open = !open;
+    const swap = () => { fw.classList.toggle('open', open); stamps(app); flipper.classList.remove('turn'); setTimeout(() => busy = false, calm ? 0 : 260); };
+    if (calm) swap(); else { flipper.classList.add('turn'); setTimeout(swap, 260); }
     $('#back').setAttribute('aria-hidden', String(!open));
     $('#front').setAttribute('aria-hidden', String(open));
     tap.textContent = open ? 'Wieder verdecken' : 'Tippe zum Aufdecken';
