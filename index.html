@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fde9d0">
+<meta name="robots" content="noindex">
+<title>Wichteln</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;800&family=Yellowtail&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#fde9d0;
+  --paper:#fff6e8;
+  --orange:#e25a33;
+  --orange-d:#b9401c;
+  --pink:#fdb3a6;
+  --pink-l:#fdd3c8;
+  --green:#0c4a3b;
+  --green-d:#083428;
+  --ink:#0c4a3b;
+  --ink-soft:#2f6455;
+  --script:"Yellowtail","Brush Script MT","Segoe Script",cursive;
+  --sans:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+  color-scheme:light;
+  accent-color:var(--green);
+}
+*{box-sizing:border-box;margin:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  min-height:100vh;min-height:100dvh;
+  background:var(--cream);
+  color:var(--ink);
+  font:400 17px/1.45 var(--sans);
+  padding:max(20px,env(safe-area-inset-top)) 16px max(40px,env(safe-area-inset-bottom));
+}
+::selection{background:var(--pink);color:var(--green-d)}
+:focus-visible{outline:3px solid var(--green);outline-offset:3px;border-radius:8px}
+main{max-width:460px;margin:0 auto;position:relative;z-index:1}
+h1,h2{font-family:var(--script);font-weight:400;letter-spacing:.005em;text-wrap:balance}
+h2{font-size:34px;line-height:1.1;margin-bottom:6px}
+p{max-width:60ch;text-wrap:pretty}
+.soft{color:var(--ink-soft);font-size:15px}
+
+/* ---------- Briefmarke ---------- */
+.stamp{position:relative;padding:13px;--edge:var(--orange);--face:var(--pink);--line:var(--paper)}
+.stamp>.edge{position:absolute;inset:0;width:100%;height:100%;z-index:0;overflow:visible;pointer-events:none}
+.stamp>.edge path{fill:var(--edge)}
+.stamp>.face{position:relative;z-index:1;background:var(--face);padding:22px 18px;min-height:100%}
+.stamp>.face::after{content:"";position:absolute;inset:6px;border:1.5px solid var(--line);opacity:.9;pointer-events:none}
+.stamp.pinkedge{--edge:var(--pink);--face:var(--green);--line:var(--pink)}
+.stamp.orange{--edge:var(--pink);--face:var(--orange);--line:var(--paper)}
+
+/* ---------- Kopf ---------- */
+.banner{margin:6px 0 28px;text-align:center}
+.banner .face{padding:26px 18px 22px}
+.banner h1{font-size:68px;line-height:.95;color:var(--paper);transform:rotate(-3deg);transform-origin:50% 60%}
+.banner p{color:var(--paper);font-weight:600;font-size:16px;margin:10px auto 0}
+.spark{position:absolute;color:var(--paper);width:18px;height:18px}
+
+/* ---------- Abschnitte ---------- */
+section{margin-bottom:30px}
+label,.lbl{display:block;font-weight:600;font-size:15px;margin-bottom:6px}
+.row{display:flex;gap:10px}
+.row>*{min-width:0}
+.row>.btn{flex:none}
+.row>input{flex:1}
+input,select{
+  font:inherit;font-size:16px;color:var(--ink);
+  background:var(--paper);border:2px solid var(--green);border-radius:12px;
+  padding:12px 14px;width:100%;min-height:48px;
+}
+input::placeholder{color:#6b8f83}
+input:focus-visible,select:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+input[type=date]{min-width:0}
+.btn{
+  font:800 17px/1 var(--sans);cursor:pointer;
+  background:var(--green);color:var(--paper);
+  border:0;border-radius:999px;padding:15px 24px;min-height:48px;
+  box-shadow:0 8px 16px -6px rgba(8,52,40,.45);
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 20px -8px rgba(8,52,40,.5)}
+.btn:active{transform:translateY(1px);box-shadow:0 3px 8px -4px rgba(8,52,40,.5)}
+.btn:disabled{background:#8aa89f;color:#e9f0ed;box-shadow:none;cursor:not-allowed;transform:none}
+.btn.soft{background:var(--pink);color:var(--green-d);box-shadow:0 6px 12px -6px rgba(8,52,40,.35)}
+.btn.small{padding:11px 16px;font-size:15px;min-height:44px}
+.btn.wide{width:100%;font-size:20px;padding:18px 24px}
+.btn.ghost{background:transparent;color:var(--green);box-shadow:none;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px;padding:12px 8px}
+.btn.ghost:hover{transform:none;box-shadow:none;color:var(--orange-d)}
+
+ul{list-style:none;padding:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{display:inline-flex;align-items:center;gap:4px;background:var(--pink);color:var(--green-d);font-weight:600;border-radius:10px;padding:6px 6px 6px 14px;
+  outline:2px dashed var(--orange);outline-offset:-5px}
+.chip button{all:unset;cursor:pointer;width:32px;height:32px;display:grid;place-items:center;border-radius:8px}
+.chip button:hover{background:var(--pink-l)}
+.chip button:focus-visible{outline:3px solid var(--green)}
+.chip svg{width:14px;height:14px}
+.empty{margin-top:12px;color:var(--ink-soft);font-size:15px}
+.pairs{margin-top:12px}
+.pairs .chip{background:var(--pink-l)}
+.err{margin-top:12px;font-weight:600;color:#9b2d0f;min-height:1.4em}
+
+/* ---------- Links-Liste ---------- */
+.links li{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:14px 0;border-bottom:2px dotted var(--pink)}
+.links li:last-child{border-bottom:0}
+.links .nm{font-family:var(--script);font-size:28px;line-height:1.1;min-width:0;overflow-wrap:anywhere}
+.links .acts{display:flex;gap:8px;flex:none}
+.notice{background:var(--paper);border:2px dashed var(--orange);border-radius:12px;padding:12px 14px;margin-bottom:20px;font-size:15px}
+
+/* ---------- Aufdecken ---------- */
+.reveal{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:8px}
+.flipwrap{perspective:1400px;width:min(100%,330px);aspect-ratio:3/4.1;position:relative}
+.flipper{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .9s var(--ease)}
+.flipwrap.open .flipper{transform:rotateY(180deg)}
+.side{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.side.back{transform:rotateY(180deg)}
+.side .stamp{height:100%}
+.side .face{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.front .face{color:var(--green-d)}
+.front .gift{width:46%;margin-bottom:6px}
+.front h1{font-size:54px;line-height:1;margin:4px 0 2px;color:var(--green-d)}
+.front .sub{font-weight:600}
+.back .face{color:var(--paper)}
+.back .tree{width:38%;margin-bottom:6px}
+.back .du{font-size:15px;font-weight:600;color:var(--pink)}
+.back .target{font-family:var(--script);color:var(--paper);line-height:1.05;margin:4px 0 10px;overflow-wrap:anywhere;max-width:100%}
+.back .when{font-weight:600;font-size:16px}
+.postmark{position:absolute;right:14px;bottom:12px;width:92px;transform:rotate(-14deg);color:var(--pink);opacity:.95}
+.tap{margin-top:26px;width:min(100%,330px)}
+.hush{margin-top:18px;display:inline-block;transform:rotate(1.5deg)}
+.hush .face{padding:10px 18px;color:var(--green-d);font-weight:800}
+.hush .face::after{inset:4px}
+
+/* ---------- Funkeln ---------- */
+.sparkles{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.sparkles svg{position:absolute;top:-30px;animation:fall linear infinite;will-change:transform}
+@keyframes fall{
+  0%{transform:translate3d(0,-30px,0) rotate(0)}
+  100%{transform:translate3d(var(--dx,20px),calc(100vh + 60px),0) rotate(180deg)}
+}
+@media (prefers-reduced-motion:reduce){
+  .flipper{transition:none}
+  .sparkles svg{animation:none;top:calc(var(--y,50)*1%)}
+  .btn{transition:none}
+}
+@media (max-width:360px){
+  body{font-size:16px}
+  .banner h1{font-size:56px}
+  .links li{flex-wrap:wrap}
+}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main id="app" aria-live="polite"></main>
+<noscript><p style="padding:24px">Diese Seite braucht JavaScript.</p></noscript>
+
+<script>
+/* ============ Hilfen ============ */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const KEY = 'wichteln-v1';
+const app = $('#app');
+
+const SPARK = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C12.8 7 17 11.2 24 12 17 12.8 12.8 17 12 24 11.2 17 7 12.8 0 12 7 11.2 11.2 7 12 0Z"/></svg>';
+const X = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M2 2l10 10M12 2L2 12"/></svg>';
+
+const GIFT = `<svg class="gift" viewBox="0 0 120 120" aria-hidden="true">
+  <path d="M60 40C50 14 22 10 26 30c3 14 24 10 34 10ZM60 40C70 14 98 10 94 30c-3 14-24 10-34 10Z" fill="none" stroke="#0c4a3b" stroke-width="4" stroke-linejoin="round"/>
+  <rect x="16" y="40" width="88" height="22" rx="3" fill="#b9401c"/>
+  <rect x="22" y="62" width="76" height="50" rx="3" fill="#e25a33"/>
+  <rect x="53" y="40" width="14" height="72" fill="#fff6e8"/>
+  <g fill="#fff6e8"><circle cx="34" cy="78" r="3"/><circle cx="84" cy="92" r="3"/><circle cx="36" cy="100" r="3"/><circle cx="84" cy="74" r="3"/></g>
+</svg>`;
+const TREE = `<svg class="tree" viewBox="0 0 120 150" aria-hidden="true">
+  <path d="M60 2l4 9 10 1-7 7 2 10-9-5-9 5 2-10-7-7 10-1Z" fill="#fdb3a6"/>
+  <g fill="#fde9d0"><path d="M60 22L86 66H34Z"/><path d="M60 46L96 102H24Z"/><path d="M60 76L106 134H14Z"/><rect x="53" y="132" width="14" height="16"/></g>
+  <path d="M38 60q22 10 44 0M30 96q30 14 60 0M22 128q38 16 76 0" fill="none" stroke="#0c4a3b" stroke-width="2.5" stroke-linecap="round"/>
+  <g fill="#fdb3a6"><circle cx="52" cy="52" r="5"/><circle cx="70" cy="62" r="5"/><circle cx="42" cy="88" r="5"/><circle cx="64" cy="92" r="5"/><circle cx="84" cy="100" r="5"/><circle cx="34" cy="118" r="5"/><circle cx="58" cy="122" r="5"/><circle cx="82" cy="126" r="5"/></g>
+</svg>`;
+
+/* ============ Briefmarken-Rand ============ */
+function wavyPath(w, h, a, wl) {
+  const x0 = a, y0 = a, x1 = w - a, y1 = h - a;
+  const nx = Math.max(4, Math.round((x1 - x0) / wl)), ny = Math.max(4, Math.round((y1 - y0) / wl));
+  const sides = [[x0,y0,x1,y0,nx],[x1,y0,x1,y1,ny],[x1,y1,x0,y1,nx],[x0,y1,x0,y0,ny]];
+  let d = `M${x0} ${y0}`;
+  for (const [sx, sy, ex, ey, n] of sides) {
+    const len = Math.hypot(ex - sx, ey - sy), r = (len / n) * 0.62;
+    for (let i = 1; i <= n; i++) {
+      const px = sx + (ex - sx) * i / n, py = sy + (ey - sy) * i / n;
+      d += `A${r.toFixed(2)} ${r.toFixed(2)} 0 0 ${i % 2} ${px.toFixed(2)} ${py.toFixed(2)}`;
+    }
+  }
+  return d + 'Z';
+}
+const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(es => es.forEach(e => drawEdge(e.target))) : null;
+function drawEdge(el) {
+  const w = el.offsetWidth, h = el.offsetHeight; if (!w || !h) return;
+  let svg = el.querySelector(':scope>.edge');
+  if (!svg) { svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); svg.setAttribute('class', 'edge'); svg.setAttribute('aria-hidden', 'true'); svg.appendChild(document.createElementNS('http://www.w3.org/2000/svg', 'path')); el.prepend(svg); }
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  svg.firstChild.setAttribute('d', wavyPath(w, h, 7, 22));
+}
+function stamps(root = document) { root.querySelectorAll('.stamp').forEach(el => { drawEdge(el); ro && ro.observe(el); }); }
+
+/* ============ Speicher ============ */
+const blank = () => ({ names: [], pairs: [], date: defaultDate(), links: null });
+function defaultDate() { const d = new Date(); let y = d.getFullYear(); if (d > new Date(y, 11, 24)) y++; return `${y}-12-24`; }
+function load() { try { return { ...blank(), ...JSON.parse(localStorage.getItem(KEY) || '{}') }; } catch { return blank(); } }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {} }
+let S = load();
+
+/* ============ Link-Format ============ */
+const b64 = o => { const bytes = new TextEncoder().encode(JSON.stringify(o)); let s = ''; bytes.forEach(b => s += String.fromCharCode(b)); return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); };
+const unb64 = t => { const s = atob(t.replace(/-/g,'+').replace(/_/g,'/')); const bytes = Uint8Array.from(s, c => c.charCodeAt(0)); return JSON.parse(new TextDecoder().decode(bytes)); };
+const baseUrl = () => location.href.split('#')[0];
+const linkFor = (n, t, d) => `${baseUrl()}#g=${b64({ v: 1, n, t, d })}`;
+
+/* ============ Auslosung: ein Ring ============ */
+function drawRing(names, pairs) {
+  const bad = new Set(pairs.flatMap(([a, b]) => [a + '\u0000' + b, b + '\u0000' + a]));
+  for (let tries = 0; tries < 20000; tries++) {
+    const o = names.slice();
+    for (let i = o.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [o[i], o[j]] = [o[j], o[i]]; }
+    if (o.every((g, i) => !bad.has(g + '\u0000' + o[(i + 1) % o.length]))) {
+      const m = {}; o.forEach((g, i) => m[g] = o[(i + 1) % o.length]); return m;
+    }
+  }
+  return null;
+}
+
+/* ============ Ansicht: Organisator ============ */
+function viewSetup() {
+  app.innerHTML = `
+  <div class="stamp orange banner" data-k="banner">
+    <div class="face">
+      <h1>Wichteln</h1>
+      <p>Wer beschenkt wen? Auslosen, Links verschicken, fertig.</p>
+    </div>
+  </div>
+
+  ${location.protocol === 'file:' ? `<div class="notice"><strong>Noch nicht online.</strong> Die Links funktionieren erst, wenn diese Seite auf GitHub Pages liegt. Dort öffnen, dann auslosen.</div>` : ''}
+  ${S.links ? `<div class="notice">Es gibt schon eine Auslosung. <button class="btn ghost small" id="seeLast" type="button">Links ansehen</button></div>` : ''}
+
+  <section>
+    <h2>Wer macht mit?</h2>
+    <label for="nm">Name</label>
+    <div class="row"><input id="nm" autocomplete="off" autocapitalize="words" maxlength="30" placeholder="z. B. Anna"><button class="btn" id="add" type="button">Hinzufügen</button></div>
+    <ul class="chips" id="chips"></ul>
+    <p class="empty" id="chipsEmpty">Mindestens drei Personen. Du selbst gehörst dazu.</p>
+  </section>
+
+  <section id="pairSec">
+    <h2>Wer soll sich nicht ziehen?</h2>
+    <p class="soft" style="margin-bottom:12px">Zum Beispiel Paare, die sich sowieso beschenken. Das ist freiwillig.</p>
+    <div class="row">
+      <div style="flex:1"><label for="pa">Person</label><select id="pa"></select></div>
+      <div style="flex:1"><label for="pb">und Person</label><select id="pb"></select></div>
+    </div>
+    <div style="margin-top:10px"><button class="btn soft small" id="addPair" type="button">Ausschluss festlegen</button></div>
+    <ul class="chips pairs" id="pairs"></ul>
+  </section>
+
+  <section>
+    <h2>Wann ist die Bescherung?</h2>
+    <label for="dt">Datum</label>
+    <input id="dt" type="date" value="${esc(S.date)}">
+  </section>
+
+  <button class="btn wide" id="go" type="button">Auslosen</button>
+  <p class="err" id="err" role="alert"></p>`;
+
+  const chips = $('#chips'), pairsEl = $('#pairs'), pa = $('#pa'), pb = $('#pb');
+  const has = n => S.names.some(x => x.toLowerCase() === n.toLowerCase());
+
+  function paint() {
+    chips.innerHTML = S.names.map(n => `<li class="chip">${esc(n)}<button type="button" data-rm="${esc(n)}" aria-label="${esc(n)} entfernen">${X}</button></li>`).join('');
+    $('#chipsEmpty').hidden = S.names.length >= 3;
+    $('#chipsEmpty').textContent = S.names.length ? `Noch ${3 - S.names.length} Person${3 - S.names.length === 1 ? '' : 'en'} fehlen.` : 'Mindestens drei Personen. Du selbst gehörst dazu.';
+    const opts = S.names.map(n => `<option>${esc(n)}</option>`).join('');
+    const ka = pa.value, kb = pb.value;
+    pa.innerHTML = pb.innerHTML = opts || '<option value="">–</option>';
+    if (S.names.includes(ka)) pa.value = ka;
+    if (S.names.includes(kb)) pb.value = kb; else if (S.names.length > 1) pb.selectedIndex = 1;
+    $('#pairSec').hidden = S.names.length < 3;
+    pairsEl.innerHTML = S.pairs.map(([a, b], i) => `<li class="chip">${esc(a)} und ${esc(b)}<button type="button" data-rp="${i}" aria-label="Ausschluss ${esc(a)} und ${esc(b)} entfernen">${X}</button></li>`).join('');
+    save();
+  }
+  function add() {
+    const inp = $('#nm'), n = inp.value.trim().replace(/\s+/g, ' ');
+    if (!n) return;
+    if (has(n)) { $('#err').textContent = `${n} steht schon in der Liste.`; return; }
+    $('#err').textContent = ''; S.names.push(n); inp.value = ''; inp.focus(); paint();
+  }
+  $('#add').onclick = add;
+  $('#nm').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); add(); } });
+  chips.onclick = e => { const b = e.target.closest('[data-rm]'); if (!b) return; const n = b.dataset.rm; S.names = S.names.filter(x => x !== n); S.pairs = S.pairs.filter(p => !p.includes(n)); paint(); };
+  pairsEl.onclick = e => { const b = e.target.closest('[data-rp]'); if (!b) return; S.pairs.splice(+b.dataset.rp, 1); paint(); };
+  $('#addPair').onclick = () => {
+    const a = pa.value, b = pb.value;
+    if (!a || !b || a === b) { $('#err').textContent = 'Wähle zwei verschiedene Personen.'; return; }
+    if (S.pairs.some(p => p.includes(a) && p.includes(b))) { $('#err').textContent = 'Diesen Ausschluss gibt es schon.'; return; }
+    $('#err').textContent = ''; S.pairs.push([a, b]); paint();
+  };
+  $('#dt').onchange = e => { S.date = e.target.value; save(); };
+  if ($('#seeLast')) $('#seeLast').onclick = viewLinks;
+  $('#go').onclick = () => {
+    S.date = $('#dt').value;
+    if (S.names.length < 3) { $('#err').textContent = 'Es braucht mindestens drei Personen.'; return; }
+    if (!S.date) { $('#err').textContent = 'Bitte ein Datum für die Bescherung wählen.'; return; }
+    const m = drawRing(S.names, S.pairs);
+    if (!m) { $('#err').textContent = 'Mit diesen Ausschlüssen geht die Auslosung nicht auf. Nimm einen Ausschluss weg.'; return; }
+    S.links = S.names.map(n => ({ name: n, url: linkFor(n, m[n], S.date) }));
+    save(); viewLinks(true);
+  };
+  paint(); stamps(app);
+}
+
+/* ============ Ansicht: Links verteilen ============ */
+function viewLinks() {
+  app.innerHTML = `
+  <div class="stamp orange banner" data-k="banner">
+    <div class="face"><h1>Fertig!</h1><p>Jede Person bekommt ihren eigenen Link.</p></div>
+  </div>
+  <section>
+    <p style="margin-bottom:6px">Schick jedem seinen Link, am besten privat. Du siehst nicht, wer wen gezogen hat. Öffne deinen eigenen Link erst, wenn du es wissen willst.</p>
+    <ul class="links" id="list">
+      ${S.links.map((l, i) => `<li><span class="nm">${esc(l.name)}</span><span class="acts">
+        <button class="btn soft small" type="button" data-copy="${i}">Kopieren</button>
+        <a class="btn small" style="text-decoration:none;display:inline-flex;align-items:center" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent('Hallo ' + l.name + '! Dein Wichtel-Link (nicht weitersagen): ' + l.url)}">WhatsApp</a></span></li>`).join('')}
+    </ul>
+  </section>
+  <section>
+    <button class="btn ghost" id="back" type="button">Namen ändern</button>
+    <button class="btn ghost" id="redo" type="button">Neu auslosen</button>
+    <p class="soft" id="redoNote" hidden>Beim Neu-Auslosen werden alle bisherigen Links ungültig. Nochmal tippen zum Bestätigen.</p>
+  </section>`;
+  $('#list').onclick = async e => {
+    const b = e.target.closest('[data-copy]'); if (!b) return;
+    const url = S.links[+b.dataset.copy].url;
+    try { await navigator.clipboard.writeText(url); }
+    catch { const t = document.createElement('textarea'); t.value = url; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); } catch {} t.remove(); }
+    b.textContent = 'Kopiert'; setTimeout(() => b.textContent = 'Kopieren', 1600);
+  };
+  $('#back').onclick = viewSetup;
+  let armed = false;
+  $('#redo').onclick = () => {
+    if (!armed) { armed = true; $('#redoNote').hidden = false; $('#redo').textContent = 'Ja, neu auslosen'; return; }
+    S.links = null; save(); viewSetup(); $('#go').click();
+    if (!S.links) return;
+    viewLinks();
+  };
+  stamps(app); window.scrollTo(0, 0);
+}
+
+/* ============ Ansicht: Aufdecken ============ */
+function viewReveal(data) {
+  const dt = new Date(data.d + 'T12:00:00');
+  const fmt = new Intl.DateTimeFormat('de-CH', { day: 'numeric', month: 'long' });
+  const long = isNaN(dt) ? '' : fmt.format(dt);
+  const mark = isNaN(dt) ? '' : `${dt.getDate()}. ${new Intl.DateTimeFormat('de-CH', { month: 'short' }).format(dt).replace('.', '').toUpperCase()}`;
+  const size = Math.max(34, Math.min(70, Math.round(290 / Math.max(5, data.t.length) * 1.7)));
+  app.innerHTML = `
+  <div class="reveal">
+    <div class="flipwrap" id="fw">
+      <div class="flipper">
+        <div class="side front" id="front"><div class="stamp"><div class="face">
+          ${GIFT}
+          <h1>Hallo ${esc(data.n)}</h1>
+          <p class="sub">Du hast jemanden gezogen.</p>
+        </div></div></div>
+        <div class="side back" id="back" aria-hidden="true"><div class="stamp pinkedge"><div class="face">
+          ${TREE}
+          <span class="du">Du beschenkst</span>
+          <span class="target" style="font-size:${size}px">${esc(data.t)}</span>
+          ${long ? `<span class="when">Bescherung am ${esc(long)}</span>` : ''}
+          ${mark ? `<svg class="postmark" viewBox="0 0 100 100" aria-hidden="true"><circle cx="46" cy="50" r="36" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="46" cy="50" r="29" fill="none" stroke="currentColor" stroke-width="1"/><text x="46" y="55" text-anchor="middle" font-family="Figtree,sans-serif" font-weight="800" font-size="15" fill="currentColor">${esc(mark)}</text><path d="M84 38q6-5 12 0t12 0M84 50q6-5 12 0t12 0M84 62q6-5 12 0t12 0" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" transform="translate(-10 0)"/></svg>` : ''}
+        </div></div></div>
+      </div>
+    </div>
+    <button class="btn wide tap" id="tap" type="button">Tippe zum Aufdecken</button>
+    <div class="stamp orange hush" aria-hidden="true"><div class="face">Nicht weitersagen!</div></div>
+    <p class="sr" id="live" style="position:absolute;left:-9999px" aria-live="polite"></p>
+  </div>`;
+  const fw = $('#fw'), tap = $('#tap');
+  let open = false;
+  function toggle() {
+    open = !open; fw.classList.toggle('open', open);
+    $('#back').setAttribute('aria-hidden', String(!open));
+    $('#front').setAttribute('aria-hidden', String(open));
+    tap.textContent = open ? 'Wieder verdecken' : 'Tippe zum Aufdecken';
+    tap.classList.toggle('soft', open);
+    $('#live').textContent = open ? `Du beschenkst ${data.t}.` : '';
+  }
+  tap.onclick = toggle; $('#front').onclick = () => { if (!open) toggle(); };
+  stamps(app); sparkles();
+}
+
+function sparkles() {
+  if ($('.sparkles')) return;
+  const box = document.createElement('div'); box.className = 'sparkles'; box.setAttribute('aria-hidden', 'true');
+  const cols = ['#fdb3a6', '#e25a33', '#fdb3a6', '#fff6e8'];
+  for (let i = 0; i < 16; i++) {
+    const s = document.createElement('span'); s.innerHTML = SPARK; const v = s.firstChild;
+    const size = 10 + Math.random() * 16;
+    v.style.cssText = `left:${Math.random() * 100}%;width:${size}px;height:${size}px;color:${cols[i % cols.length]};animation-duration:${12 + Math.random() * 12}s;animation-delay:-${Math.random() * 20}s;--dx:${(Math.random() - .5) * 80}px;--y:${Math.random() * 90}`;
+    box.appendChild(v);
+  }
+  document.body.prepend(box);
+}
+
+/* ============ Fehler ============ */
+function viewBad() {
+  app.innerHTML = `<div class="stamp orange banner"><div class="face"><h1>Hoppla</h1><p>Dieser Link ist unvollständig oder ungültig. Frag die Person, die ausgelost hat, nach einem neuen Link.</p></div></div>`;
+  stamps(app);
+}
+
+/* ============ Start ============ */
+function route() {
+  const m = location.hash.match(/^#g=([\w-]+)$/);
+  if (m) { try { const d = unb64(m[1]); if (d && d.n && d.t) return viewReveal(d); } catch {} return viewBad(); }
+  viewSetup();
+}
+window.addEventListener('hashchange', route);
+route();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => stamps(app));
+</script>
+</body>
+</html>
