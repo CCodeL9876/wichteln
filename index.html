@@ -342,7 +342,9 @@ function viewLinks() {
   <section>
     <button class="btn ghost" id="back" type="button">Namen ändern</button>
     <button class="btn ghost" id="redo" type="button">Neu auslosen</button>
-    <p class="soft" id="redoNote" hidden>Beim Neu-Auslosen werden alle bisherigen Links ungültig. Nochmal tippen zum Bestätigen.</p>
+    <button class="btn ghost" id="redoNo" type="button" hidden>Abbrechen</button>
+    <p class="soft" id="redoNote" hidden>Die alten Links funktionieren weiter und zeigen die alte Auslosung. Schick deshalb allen die neuen Links und bitte sie, die alten zu löschen.</p>
+    <p class="err" id="redoErr" role="alert"></p>
   </section>`;
   $('#list').onclick = async e => {
     const b = e.target.closest('[data-copy]'); if (!b) return;
@@ -353,11 +355,15 @@ function viewLinks() {
   };
   $('#back').onclick = viewSetup;
   let armed = false;
+  const disarm = () => { armed = false; $('#redoNote').hidden = true; $('#redoNo').hidden = true; $('#redo').textContent = 'Neu auslosen'; };
+  $('#redoNo').onclick = disarm;
   $('#redo').onclick = () => {
-    if (!armed) { armed = true; $('#redoNote').hidden = false; $('#redo').textContent = 'Ja, neu auslosen'; return; }
-    S.links = null; save(); viewSetup(); $('#go').click();
-    if (!S.links) return;
-    viewLinks();
+    $('#redoErr').textContent = '';
+    if (!armed) { armed = true; $('#redoNote').hidden = false; $('#redoNo').hidden = false; $('#redo').textContent = 'Ja, neu auslosen'; return; }
+    const m = drawRing(S.names, S.pairs);
+    if (!m) { $('#redoErr').textContent = 'Mit diesen Ausschlüssen geht die Auslosung nicht auf. Deine alten Links gelten weiter. Ändere die Ausschlüsse unter „Namen ändern".'; disarm(); return; }
+    S.links = S.names.map(n => ({ name: n, url: linkFor(n, m[n], S.date) }));
+    save(); viewLinks();
   };
   stamps(app); window.scrollTo(0, 0);
 }
